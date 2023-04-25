@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.0.5</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>se.hkr.java.db</groupId>
+	<artifactId>databaseDemo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>DatabaseDemo</name>
+	<description>Demo project for JOOQ</description>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<version>8.0.32</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jooq</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<version>3.0.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+        <plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+            <plugin>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <version>3.17.10</version>
+
+                <!-- The plugin should hook into the generate goal -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <!-- Manage the plugin's dependency. In this example, we'll use a PostgreSQL database -->
+                <dependencies>
+                    <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
+                    <dependency>
+                        <groupId>com.mysql</groupId>
+                        <artifactId>mysql-connector-j</artifactId>
+                        <version>8.0.32</version>
+                    </dependency>
+                </dependencies>
+
+                <!-- Specify the plugin configuration.
+                     The configuration format is the same as for the standalone code generator -->
+                <configuration>
+
+                    <!-- JDBC connection parameters -->
+                    <jdbc>
+                        <driver>com.mysql.cj.jdbc.Driver</driver>
+                        <url>jdbc:mysql://localhost:3306/shop</url>
+                        <user>root</user>
+                        <password>mauFJcuf5dhRMQrjj</password>
+                    </jdbc>
+
+                    <!-- Generator parameters -->
+                    <generator>
+                        <database>
+                            <name>org.jooq.meta.mysql.MySQLDatabase</name>
+                            <includes>.*</includes>
+                            <excludes></excludes>
+                            <!-- In case your database supports catalogs, e.g. SQL Server:
+                            <inputCatalog>public</inputCatalog>
+                              -->
+                            <inputSchema>shop</inputSchema>
+                        </database>
+                        <target>
+                            <packageName>se.hkr.java.db.generated</packageName>
+                            <directory>target/generated-sources/jooq</directory>
+                        </target>
+                    </generator>
+                </configuration>
+            </plugin>
+		</plugins>
+	</build>
+</project>
